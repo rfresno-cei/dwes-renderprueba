@@ -1,0 +1,8 @@
+{% extends 'freddyapp/layout.html' %}
+
+{% block content %}
+<h1>{{ animatronic.name }}</h1>
+<p>Animal type: {{ animatronic.get_animal_display }}</p>
+<p>Build date: {{ animatronic.build_date }}</p>
+<p>Decommissioned: {{ animatronic.decommissioned }}</p>
+{% endblock %}

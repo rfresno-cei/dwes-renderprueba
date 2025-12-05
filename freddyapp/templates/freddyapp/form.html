@@ -1,0 +1,9 @@
+{% extends 'freddyapp/layout.html' %}
+
+{% block content %}
+<form method='post'>
+    {% csrf_token %}
+    {{ form }}
+    <button type='sumbit'>Send</button>
+</form>
+{% endblock %}

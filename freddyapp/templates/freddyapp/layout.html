@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Freddy Fazbear's Pizza</title>
+        <style>
+            body.dark {
+                background: #0b2936ff;
+                color: #b3a5a5ff;
+            }
+        </style>
+    </head>
+    <body {% if theme == 'dark' %}class='dark'{% endif %}>
+        <header>
+            <a href="{% url 'theme' %}">Dark theme</a>
+            <a href="{% url 'clearcookies' %}">Light theme</a>
+
+            {% if not user.is_authenticated %}
+                <a href="{% url 'newuser' %}">Register</a>
+                <a href="{% url 'login' %}">Log in</a>
+            {% else %}
+                <p>Hi, {{ user.username }}</p>
+                <form method='post' action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type='submit'>Log out</button>
+                </form>
+            {% endif %}
+        </header>
+
+        {% block content %}{% endblock %}
+    </body>
+</html>
