@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'clave-secreta-local-super-larg
 
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'djangoceiprueba.onrender.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'dwes-renderprueba.onrender.com']
 
 
 # Application definition
