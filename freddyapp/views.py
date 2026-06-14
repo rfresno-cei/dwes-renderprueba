@@ -4,7 +4,7 @@ from django.views.generic import UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 
 from freddyapp.forms import AnimatronicForm
 from freddyapp.models import Animatronic
@@ -15,7 +15,6 @@ def animatronic_list(request):
     return render(request, 'freddyapp/list.html', {'animatronics': animatronics})
 
 @login_required
-@permission_required('freddyapp.add_animatronic', raise_exception=True)
 def animatronic_new(request):
     if request.method == 'POST':
         form = AnimatronicForm(request.POST)
@@ -31,24 +30,21 @@ def animatronic_view(request, id):
     animatronic = get_object_or_404(Animatronic, pk=id)
     return render(request, 'freddyapp/view.html', {'animatronic': animatronic})
 
-class AnimatronicUpdate(PermissionRequiredMixin, UpdateView):
+class AnimatronicUpdate(LoginRequiredMixin, UpdateView):
     model = Animatronic
     form_class = AnimatronicForm
     template_name ='freddyapp/form.html'
-    permission_required = 'freddyapp.change_animatronic'
     success_url = reverse_lazy('animatronic_list')
 
-class AnimatronicDelete(PermissionRequiredMixin, DeleteView):
+class AnimatronicDelete(LoginRequiredMixin, DeleteView):
     model = Animatronic
     template_name = 'freddyapp/confirm_delete.html'
-    permission_required = 'freddyapp.delete_animatronic'
     success_url = reverse_lazy('animatronic_list')
 
 def newuser(request):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
         user = form.save()
-        user.groups.add(Group.objects.get(name='Client'))
         return redirect('login')
     return render(request, 'freddyapp/form.html', {'form': form})
 
